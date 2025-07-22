@@ -1,8 +1,18 @@
 import pandas as pd
 import os
+import gc
+from tqdm import tqdm
+import warnings
+import src.FILTRAR_RUT as FR
 
 
-url = r"../fix_historial3\salida\salida"
+
+
+
+# Eliminar warnings (como los de DtypeWarning o SettingWithCopyWarning)
+warnings.filterwarnings("ignore")
+
+url = r"../Descarga\salida"
 
 
 def listar_archivos(carpeta):
@@ -21,7 +31,7 @@ def listar_archivos(carpeta):
         print(f"Error al listar archivos: {e}")
         return []
     
-    
+
 def unir_base_grande():
     
     files = listar_archivos(url)
@@ -31,7 +41,7 @@ def unir_base_grande():
     if os.path.exists(output_file):
         os.remove(output_file)
 
-    for i, file in enumerate(files):
+    for i, file in enumerate(tqdm(files, desc="Procesando archivos")):
         path = f"{url}/{file}"
         df = pd.read_csv(path, compression='xz', sep='\t')
         
@@ -40,3 +50,7 @@ def unir_base_grande():
         
         # Liberar memoria explícitamente
         del df
+        gc.collect()
+
+def GLOBAL():
+    FR.GLOBAL()
