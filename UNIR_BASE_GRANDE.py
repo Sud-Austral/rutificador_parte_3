@@ -3,7 +3,7 @@ import os
 import gc
 from tqdm import tqdm
 import warnings
-import src.FILTRAR_RUT as FR
+import src2.FILTRAR_RUT as FR
 
 
 
